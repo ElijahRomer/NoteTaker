@@ -1,7 +1,10 @@
 const express = require(`express`);
 const router = express.Router();
 const path = require(`path`);
+const fs = require(`fs`);
 
+router.use(express.json());
+router.use(express.urlencoded({ extended: true }));
 
 //__dirname: C:\Users\romer\Desktop\GitHub-Repositories\NoteTaker\routes
 
@@ -10,8 +13,20 @@ const path = require(`path`);
 //read db.json file and return all saved notes as JSON
 router.get(`/api/notes`, (req, res) => {
   console.log(`GET REQUEST FOR /api/notes RECEIVED`)
-  res.json({"GET /api/notes": "WORKS"})
-})
+  fs.readFile(
+    path.join(__dirname, `../db/db.json`), 
+    "utf-8",
+    (err, data) => {
+      if (err) {
+        console.log(`ERROR: `,err);
+        res.status(500).send(err);
+      } else {
+        console.log(`NO ERROR, DATA AS FOLLOWS: ` , JSON.parse(data));
+        res.json(JSON.parse(data));
+      }
+    }
+  )
+});
 
 //receive new note to save on the request body, add it to the db.json file, and return the new note to the client.
 router.post(`/api/notes`, (req, res) => {

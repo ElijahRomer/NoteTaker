@@ -10,10 +10,4 @@ router.get(`/notes`, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/notes.html`))
 });
 
-//if no match, return the index.html
-router.get(`*`, (req, res) => {
-  console.log(`GET REQUEST FOR * RECEIVED`)
-  res.sendFile(path.join(__dirname, `../public/index.html`))
-})
-
 module.exports = router;
