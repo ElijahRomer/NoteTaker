@@ -1,16 +1,19 @@
 const express = require(`express`);
 const router = express.Router();
+const path = require(`path`);
 
-//return notes.html
+router.use(express.static(`public`))
+
+// return notes.html
 router.get(`/notes`, (req, res) => {
   console.log(`GET REQUEST FOR /notes RECEIVED`)
-  res.json({"GET /notes": "WORKS"})
+  res.sendFile(path.join(__dirname, `../public/notes.html`))
 });
 
 //if no match, return the index.html
 router.get(`*`, (req, res) => {
   console.log(`GET REQUEST FOR * RECEIVED`)
-  res.json({"GET *": "WORKS"})
+  res.sendFile(path.join(__dirname, `../public/index.html`))
 })
 
 module.exports = router;

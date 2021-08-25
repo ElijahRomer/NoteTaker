@@ -4,6 +4,9 @@ const { v4: uuid } = require(`uuid`);
 
 const router = require(`./routes`);
 
+// console.log(`DIRNAME: `, __dirname)
+// console.log(`FILENAME: `, __filename)
+
 // console.log(router)
 
 // console.log(uuid())

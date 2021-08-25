@@ -1,5 +1,11 @@
 const express = require(`express`);
 const router = express.Router();
+const path = require(`path`);
+
+
+//__dirname: C:\Users\romer\Desktop\GitHub-Repositories\NoteTaker\routes
+
+//__filename: C:\Users\romer\Desktop\GitHub-Repositories\NoteTaker\routes\APIRoutes.js
 
 //read db.json file and return all saved notes as JSON
 router.get(`/api/notes`, (req, res) => {
