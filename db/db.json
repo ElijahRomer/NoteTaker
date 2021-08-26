@@ -1,12 +1,27 @@
 [
     {
-        "title":"Test Title",
-        "text":"Test text",
-        "id":"Test1"
+        "title": "Test Title",
+        "text": "Test text",
+        "id": "Test1"
     },
     {
-        "title":"Test Title2",
-        "text":"Test text2",
-        "id":"Test2"
+        "title": "Test Title2",
+        "text": "Test text2",
+        "id": "Test2"
+    },
+    {
+        "title": "TESTING MODULARIZED READWRITE FUNCTION",
+        "text": "This text is from the insomnia POST request to /api/notes.",
+        "id": "fbaf3475-c1ad-4dbc-8739-013a87ce4711"
+    },
+    {
+        "title": "TESTING MODULARIZED READWRITE FUNCTION",
+        "text": "This text is from the insomnia POST request to /api/notes.",
+        "id": "38ab4b84-52a0-405a-9c33-578e52b1e74a"
+    },
+    {
+        "title": "WHAT IS GOOD",
+        "text": "TESTING 1..2..3...",
+        "id": "c8f4bcad-8174-4db8-ba3d-3ba5368b57c4"
     }
 ]
