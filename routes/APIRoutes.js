@@ -3,15 +3,14 @@ const router = express.Router();
 const path = require(`path`);
 const fs = require(`fs`);
 const { v4: uuid } = require(`uuid`);
-const { readAndWriteDB } = require(`../helpers/functions.js`)
-
+const COLOR = require(`../helpers/consoleColors`);
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
-//read db.json file and return all saved notes as JSON
+//reads db.json file and returns all saved notes to client
 router.get(`/api/notes`, (req, res) => {
-  console.log(`GET REQUEST FOR /api/notes RECEIVED`)
+  console.log(`${COLOR.fgGreen}GET${COLOR.reset} REQUEST AT /api/notes RECEIVED`);
   fs.readFile(
     path.join(__dirname, `../db/db.json`), 
     "utf-8",
@@ -26,12 +25,10 @@ router.get(`/api/notes`, (req, res) => {
   )
 });
 
-//receive new note to save on the request body, add UUID, write it to the db.json file, and return the new note to the client.
+//receives new note to save on the request body, adds UUID, reads db.json file, appends  new entry to it, then returns the new database content to the client.
 router.post(`/api/notes`, async (req, res) => {
-  console.log(`1. POST REQUEST FOR /api/notes RECEIVED`);
+  console.log(`${COLOR.fgYellow}POST${COLOR.reset} REQUEST at /api/notes RECEIVED`);
   const {title, text} = req.body; //{ title: 'Note Title.', text: 'Note Text.' }
-
-  console.log(`2. TITLE: ${title}, TEXT: ${text}.`)
 
     if(title && text) {
 
@@ -51,13 +48,12 @@ router.post(`/api/notes`, async (req, res) => {
         } else {
             let db = JSON.parse(dbContents);
             db.push(newEntry);
-            console.log(`DATABASE SUCCESSFULLY UPDATED.`);
 
-              fs.writeFile(
-                path.join(__dirname, `../db/db.json`), 
-                JSON.stringify(db, null, 4), 
-                (err) =>
-                err ? console.error(err) : console.log(`data successfully written to database.`))
+            fs.writeFile(
+              path.join(__dirname, `../db/db.json`), 
+              JSON.stringify(db, null, 4), 
+              (err) =>
+              err ? console.error(err) : console.log(`${COLOR.fgCyan}DATA SUCCESSFULLY WRITTEN TO DATABASE.${COLOR.reset}`))
 
             res.status(201).json(db);
           }
@@ -65,42 +61,48 @@ router.post(`/api/notes`, async (req, res) => {
      
     } else {
       console.log(`POST REQUEST REJECTED AS INCOMPLETE`);
-      res.status(400).json({"ERROR": "Please include both a title and text."})
+      res.status(400).json("ERROR: Please include both a title and text.")
     }
   });
 
-//delete note based on query parameter that contains the ID of the note. Need to read all notes from db.json file, remove note with corresponding id, then rewrite the notes and serve to client. ***NEED TO CHANGE TO QUERY PARAMS
+//delete note based on query parameter that contains the ID of the note. Reads all notes from db.json file, removes note with corresponding id, then rewrites the db.json file and serves back to client.
 router.delete(`/api/notes/:id`, (req, res) => {
-  console.log(`DELETE REQUEST FOR /api/notes/${req.params.id} RECEIVED`)
+  console.log(`${COLOR.fgRed}DELETE${COLOR.reset} REQUEST AT /api/notes/ RECEIVED`)
 
   fs.readFile(
     path.join(__dirname, `../db/db.json`), 
     "utf-8",
     (err, data) => {
       let JSONData = JSON.parse(data);
-      console.log(JSONData);
+      let titleOfRemovedEntry;
       if (err) {
         console.log(`ERROR: `, err);
         res.status(500).send(err);
       } else {
-        JSONData.forEach((entry) => {
-          
-          console.log(entry.id);
-          
+        JSONData.every((entry) => {
           if (entry.id !== req.params.id) {
-            return;
+              return true;
           } else {
-            console.log(`MATCH FOUND`)
-            JSONData.splice(JSONData.indexOf(entry), 1)
-            return JSONData;
-          }
-        })
-        res.json(JSON.parse(data));
+              console.log(`${COLOR.fgCyan}MATCH FOUND${COLOR.reset}`)
+              titleOfRemovedEntry = entry.title;
+              JSONData.splice(JSONData.indexOf(entry), 1)
+              return false;
+          }});
+
+        fs.writeFile(
+          path.join(__dirname, `../db/db.json`), 
+          JSON.stringify(JSONData, null, 4), 
+          (err) => {
+            if (!err) {
+              console.log(`${COLOR.fgCyan}MATCH DELETED${COLOR.reset}.`);
+              res.status(204).json(JSONData);
+            } else {
+              res.status(500).json("ERROR: Server Could not complete delete request");
+            }
+          })
       }
     }
   )
-
-  // res.json({"DELETE /api/notes/:id": `WORKS, id is ${req.params.id}`})
 })
 
 module.exports = router;

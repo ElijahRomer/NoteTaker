@@ -2,6 +2,7 @@ const express = require(`express`);
 const app = express();
 const { v4: uuid } = require(`uuid`);
 const path = require(`path`)
+const COLOR = require(`./helpers/consoleColors`)
 
 const router = require(`./routes`);
 
@@ -16,11 +17,11 @@ app.use(router)
 
 //if no router match, return the index.html
 app.get(`*`, (req, res) => {
-  console.log(`GET REQUEST FOR * RECEIVED`)
+  console.log(`${COLOR.fgGreen}GET${COLOR.reset} REQUEST FOR * RECEIVED`)
   res.status(404)
     .sendFile(path.join(__dirname, `./public/index.html`))
 })
 
 app.listen(PORT, () => {
-  console.log(`App is listening on port ${PORT} at http://localhost:${PORT}`)
+  console.log(`${COLOR.fgCyan}App is listening on port ${PORT} at http://localhost:${PORT}${COLOR.reset}`)
 })

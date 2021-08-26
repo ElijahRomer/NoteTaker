@@ -23,13 +23,11 @@ if (window.location.pathname === '/notes') {
 
 // Show an element
 const show = (elem) => {
-  console.log(`show FIRED`);
   elem.style.display = 'inline';
 };
 
 // Hide an element
 const hide = (elem) => {
-  console.log(`hide FIRED`);
   elem.style.display = 'none';
 };
 
@@ -62,7 +60,6 @@ const deleteNote = (id) =>
   });
 
 const renderActiveNote = () => {
-  console.log(`renderActiveNote FIRED`);
   hide(saveNoteBtn);
 
   if (activeNote.id) {
@@ -79,7 +76,6 @@ const renderActiveNote = () => {
 };
 
 const handleNoteSave = () => {
-  console.log(`handleNoteSave FIRED`);
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
@@ -94,7 +90,6 @@ const handleNoteSave = () => {
 const handleNoteDelete = (e) => {
   // Prevents the click listener for the list from being called when the button inside of it is clicked
   e.stopPropagation();
-  console.log(`handleNoteDelete FIRED`);
 
   const note = e.target;
   const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
@@ -112,20 +107,17 @@ const handleNoteDelete = (e) => {
 // Sets the activeNote and displays it
 const handleNoteView = (e) => {
   e.preventDefault();
-  console.log(`handleNoteView FIRED`);
   activeNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
   renderActiveNote();
 };
 
 // Sets the activeNote to and empty object and allows the user to enter a new note
 const handleNewNoteView = (e) => {
-  console.log(`handleNewNoteView FIRED`);
   activeNote = {};
   renderActiveNote();
 };
 
 const handleRenderSaveBtn = () => {
-  console.log(`handleRenderSaveBtn FIRED`);
   if (!noteTitle.value.trim() || !noteText.value.trim()) {
     hide(saveNoteBtn);
   } else {
@@ -135,7 +127,6 @@ const handleRenderSaveBtn = () => {
 
 // Render the list of note titles
 const renderNoteList = async (notes) => {
-  console.log(`renderNoteList FIRED`);
   let jsonNotes = await notes.json();
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
@@ -145,7 +136,6 @@ const renderNoteList = async (notes) => {
 
   // Returns HTML element with or without a delete button
   const createLi = (text, delBtn = true) => {
-    console.log(`createLi FIRED`);
     const liEl = document.createElement('li');
     liEl.classList.add('list-group-item');
 
