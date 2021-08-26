@@ -9,11 +9,13 @@ This project is an application useful for saving and later viewing notes from an
 - Express
 - Node UUID Module
 
-  ![Screenshot ](images/screenshot.jpg 'Screenshot!')
+**_View Deployed application [here](https://git.heroku.com/intense-peak-27989.git 'Visit Note Taker Application') or by visiting the following URL: https://git.heroku.com/intense-peak-27989.git_**
 
-  ***
+![Screenshot ](images/screenshot.jpg 'Screenshot!')
 
-  ## Table of Contents
+---
+
+## Table of Contents
 
 1. [Usage](#usage)
 1. [Contribution](#contribution)
